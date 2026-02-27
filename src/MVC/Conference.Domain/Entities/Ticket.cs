@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Conference.Domain.Entities
+namespace ConferenceMVC.Domain.Entities
 {
     internal class Ticket : Entity
     {

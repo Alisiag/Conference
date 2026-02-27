@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Conference.Domain.Entities
+namespace ConferenceMVC.Domain.Entities
 {
     public class SessionSpeaker : Entity
     {
