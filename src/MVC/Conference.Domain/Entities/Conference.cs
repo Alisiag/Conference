@@ -1,10 +1,23 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 
-namespace ConferenceMVC.Domain.Entities
+namespace ConferenceMVC.Domain.Entities;
+
+public partial class Conference
 {
-    public class Conference: Entity, IAggregateRoot
-    {
-    }
+    public int Id { get; set; }
+
+    public string? Name { get; set; }
+
+    public string? Description { get; set; }
+
+    public DateOnly? StartDate { get; set; }
+
+    public DateOnly? EndDate { get; set; }
+
+    public virtual ICollection<Partner> Partners { get; set; } = new List<Partner>();
+
+    public virtual ICollection<PricingPeriod> PricingPeriods { get; set; } = new List<PricingPeriod>();
+
+    public virtual ICollection<Session> Sessions { get; set; } = new List<Session>();
 }

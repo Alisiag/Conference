@@ -1,10 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 
-namespace ConferenceMVC.Domain.Entities
+namespace ConferenceMVC.Domain.Entities;
+
+public partial class ContactPerson
 {
-    public class ContactPerson: Entity
-    {
-    }
+    public int Id { get; set; }
+
+    public string? Name { get; set; }
+
+    public string? Surname { get; set; }
+
+    public string? Email { get; set; }
+
+    public int InvoiceId { get; set; }
+
+    public virtual Invoice Invoice { get; set; } = null!;
 }

@@ -1,10 +1,23 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 
-namespace ConferenceMVC.Domain.Entities
+namespace ConferenceMVC.Domain.Entities;
+
+public partial class PricingPeriod
 {
-    public class PricingPeriod : Entity
-    {
-    }
+    public int Id { get; set; }
+
+    public string Name { get; set; } = null!;
+
+    public decimal Price { get; set; }
+
+    public DateTime? StartDate { get; set; }
+
+    public DateTime? EndDate { get; set; }
+
+    public int? ConferenceId { get; set; }
+
+    public virtual Conference? Conference { get; set; }
+
+    public virtual ICollection<Ticket> Tickets { get; set; } = new List<Ticket>();
 }
