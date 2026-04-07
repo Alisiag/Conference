@@ -3,10 +3,8 @@ using System.Collections.Generic;
 
 namespace ConferenceMVC.Domain.Entities;
 
-public partial class Partner
+public partial class Partner : Entity
 {
-    public int Id { get; set; }
-
     public string? Name { get; set; }
 
     public int? PartnershipLevel { get; set; }

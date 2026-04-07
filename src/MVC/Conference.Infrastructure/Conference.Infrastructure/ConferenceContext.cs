@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
+using ConferenceMVC.Domain.Entities;
 
-namespace ConferenceMVC.Domain.Entities;
+namespace ConferenceMVC.Infrastucture;
 
 public partial class ConferenceContext : DbContext
 {

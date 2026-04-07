@@ -3,10 +3,8 @@ using System.Collections.Generic;
 
 namespace ConferenceMVC.Domain.Entities;
 
-public partial class PricingPeriod
+public partial class PricingPeriod : Entity
 {
-    public int Id { get; set; }
-
     public string Name { get; set; } = null!;
 
     public decimal Price { get; set; }

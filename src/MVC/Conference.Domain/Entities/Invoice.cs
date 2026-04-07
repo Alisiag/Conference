@@ -3,9 +3,8 @@ using System.Collections.Generic;
 
 namespace ConferenceMVC.Domain.Entities;
 
-public partial class Invoice
+public partial class Invoice : Entity
 {
-    public int Id { get; set; }
 
     public decimal? TotalAmount { get; set; }
 

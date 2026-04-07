@@ -3,9 +3,8 @@ using System.Collections.Generic;
 
 namespace ConferenceMVC.Domain.Entities;
 
-public partial class Conference
+public partial class Conference : Entity
 {
-    public int Id { get; set; }
 
     public string? Name { get; set; }
 
