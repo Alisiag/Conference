@@ -1,28 +1,33 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using ConferenceMVC.Domain.Entities;
+using ConferenceMVC.Infrastucture;
+using ConferenceMVC.Web.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using ConferenceMVC.Domain.Entities;
-using ConferenceMVC.Infrastucture;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace ConferenceMVC.Web.Controllers
 {
     public class ConferencesController : Controller
     {
         private readonly ConferenceContext _context;
+        private readonly IActiveEventService _activeEventService;
 
-        public ConferencesController(ConferenceContext context)
+        public ConferencesController(ConferenceContext context, IActiveEventService activeEventService)
         {
             _context = context;
+            _activeEventService = activeEventService;
         }
 
         // GET: Conferences
+
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Conferences.ToListAsync());
+            var conferences = await _context.Conferences.ToListAsync();
+            return View(conferences);
         }
 
         // GET: Conferences/Details/5
@@ -34,7 +39,11 @@ namespace ConferenceMVC.Web.Controllers
             }
 
             var conference = await _context.Conferences
+                .Include(c => c.Sessions).ThenInclude(s => s.Speakers)
+                .Include(c => c.Partners)
+                .Include(c => c.PricingPeriods)
                 .FirstOrDefaultAsync(m => m.Id == id);
+
             if (conference == null)
             {
                 return NotFound();
@@ -139,13 +148,25 @@ namespace ConferenceMVC.Web.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
+            bool hasSessions = await _context.Sessions.AnyAsync(s => s.ConferenceId == id);
+            bool hasParticipants = await _context.Participants.AnyAsync(p => p.ConferenceId == id);
+            
+            if (hasSessions || hasParticipants)
+            {
+               
+                TempData["ErrorMessage"] = "Помилка видалення: До цієї конференції ще прив'язані об'єкти. Спочатку видаліть їх.";
+
+                
+                return RedirectToAction(nameof(Delete), new { id = id });
+            }
+
             var conference = await _context.Conferences.FindAsync(id);
             if (conference != null)
             {
                 _context.Conferences.Remove(conference);
+                await _context.SaveChangesAsync();
             }
 
-            await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 

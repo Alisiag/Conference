@@ -1,4 +1,5 @@
 using ConferenceMVC.Web.Models;
+using ConferenceMVC.Web.Services;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 
@@ -6,10 +7,29 @@ namespace ConferenceMVC.Web.Controllers
 {
     public class HomeController : Controller
     {
-        public IActionResult Index()
+        private readonly IActiveEventService _activeEventService;
+
+
+        public HomeController(IActiveEventService activeEventService)
         {
+            _activeEventService = activeEventService;
+        }
+
+        public async Task<IActionResult> Index()
+        {
+
+            var activeId = await _activeEventService.GetActiveConferenceIdAsync();
+
+            if (activeId != null)
+            {
+ 
+                return RedirectToAction("Details", "Conferences", new { id = activeId });
+            }
+
             return View();
         }
+
+
 
         public IActionResult Privacy()
         {

@@ -93,7 +93,7 @@ public partial class ConferenceContext : DbContext
 
             entity.HasOne(d => d.Invoice).WithOne(p => p.ContactPerson)
                 .HasForeignKey<ContactPerson>(d => d.InvoiceId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
+                .OnDelete(DeleteBehavior.Restrict)
                 .HasConstraintName("invoice_contact");
         });
 
@@ -105,7 +105,6 @@ public partial class ConferenceContext : DbContext
 
             entity.Property(e => e.Id).HasColumnName("id");
             entity.Property(e => e.Status)
-                .HasDefaultValue(0)
                 .HasColumnName("status");
             entity.Property(e => e.TicketId).HasColumnName("ticket_id");
             entity.Property(e => e.TotalAmount).HasColumnName("total_amount");
@@ -139,7 +138,7 @@ public partial class ConferenceContext : DbContext
 
             entity.HasOne(d => d.Company).WithMany(p => p.Participants)
                 .HasForeignKey(d => d.CompanyId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
+                .OnDelete(DeleteBehavior.Restrict)
                 .HasConstraintName("participant_works_at_company");
         });
 
@@ -157,12 +156,11 @@ public partial class ConferenceContext : DbContext
                 .HasColumnType("character varying")
                 .HasColumnName("name");
             entity.Property(e => e.PartnershipLevel)
-                .HasDefaultValue(0)
                 .HasColumnName("partnership_level");
 
             entity.HasOne(d => d.Conference).WithMany(p => p.Partners)
                 .HasForeignKey(d => d.ConferenceId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
+                .OnDelete(DeleteBehavior.Restrict)
                 .HasConstraintName("conference_partners");
         });
 
@@ -220,11 +218,11 @@ public partial class ConferenceContext : DbContext
                     "SessionSpeaker",
                     r => r.HasOne<Speaker>().WithMany()
                         .HasForeignKey("SpeakerId")
-                        .OnDelete(DeleteBehavior.ClientSetNull)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .HasConstraintName("fk_speaker_of_session"),
                     l => l.HasOne<Session>().WithMany()
                         .HasForeignKey("SessionId")
-                        .OnDelete(DeleteBehavior.ClientSetNull)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .HasConstraintName("fk_session_of_speaker"),
                     j =>
                     {
@@ -279,12 +277,12 @@ public partial class ConferenceContext : DbContext
 
             entity.HasOne(d => d.Participant).WithOne(p => p.Ticket)
                 .HasForeignKey<Ticket>(d => d.ParticipantId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
+                .OnDelete(DeleteBehavior.Restrict)
                 .HasConstraintName("participant_ticket");
 
             entity.HasOne(d => d.Period).WithMany(p => p.Tickets)
                 .HasForeignKey(d => d.PeriodId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
+                .OnDelete(DeleteBehavior.Restrict)
                 .HasConstraintName("ticket_pricing");
         });
 

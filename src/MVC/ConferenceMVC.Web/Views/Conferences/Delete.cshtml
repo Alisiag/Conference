@@ -6,6 +6,14 @@
 
 <h1>Delete</h1>
 
+@if (TempData["ErrorMessage"] != null)
+{
+    <div class="alert alert-danger alert-dismissible fade show mt-3" role="alert">
+        <strong>Увага!</strong> @TempData["ErrorMessage"]
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Закрити"></button>
+    </div>
+}
+
 <h3>Are you sure you want to delete this?</h3>
 <div>
     <h4>Conference</h4>
